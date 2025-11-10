@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sitemap Builder (2-file)</title>
+<style>
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto;max-width:880px;margin:32px auto;padding:0 16px;color:#222}
+  h1{font-size:22px;margin:8px 0 12px}
+  .card{background:#fff;border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.06);padding:16px;margin:14px 0}
+  textarea{width:100%;min-height:170px;border:1px solid #ddd;border-radius:8px;padding:10px;resize:vertical}
+  .row{display:flex;gap:10px;flex-wrap:wrap}
+  .btn{padding:10px 14px;border:0;border-radius:8px;background:#0069ff;color:#fff;cursor:pointer}
+  .btn.secondary{background:#6c757d}
+  .muted{color:#666;font-size:13px}
+  .list{max-height:240px;overflow:auto;border:1px dashed #ddd;border-radius:8px;padding:8px}
+  .item{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #f4f4f4;padding:6px 4px}
+  .ok{color:green;font-size:12px}
+  .bad{color:#c41a1a;font-size:12px}
+  code{background:#f6f8fa;padding:2px 4px;border-radius:4px}
+</style>
+</head>
+<body>
+  <h1>Nhập URL → tạo <code>sitemap.xml</code> (tải về để ghi đè)</h1>
+
+  <div class="card">
+    <div class="muted">Mẹo: Host cả <code>index.html</code> và <code>sitemap.xml</code> cùng origin (ví dụ GitHub Pages). Trang sẽ cố gắng đọc <code>/sitemap.xml</code> hiện có để gộp link.</div>
+    <div class="row" style="margin:10px 0">
+      <button id="loadBtn" class="btn secondary">Đọc sitemap.xml hiện có</button>
+      <button id="clearBtn" class="btn secondary">Xóa danh sách</button>
+    </div>
+
+    <label>Nhập/paste nhiều URL (mỗi dòng 1 link):</label>
+    <textarea id="ta" placeholder="https://example.com/page-1
+https://example.com/page-2"></textarea>
+
+    <div class="row" style="margin-top:10px">
+      <button id="parseBtn" class="btn">Thêm vào danh sách</button>
+      <button id="downloadBtn" class="btn" style="margin-left:auto">Tạo & Tải sitemap.xml</button>
+    </div>
+
+    <div id="msg" class="muted" style="margin-top:8px"></div>
+
+    <div class="list" id="list" style="margin-top:10px"></div>
+  </div>
+
+<script>
+const state = { urls: new Set(), items: [] }; // items: {url, valid}
+
+const ta = document.getElementById('ta');
+const listEl = document.getElementById('list');
+const msg = document.getElementById('msg');
+const parseBtn = document.getElementById('parseBtn');
+const clearBtn = document.getElementById('clearBtn');
+const loadBtn = document.getElementById('loadBtn');
+const downloadBtn = document.getElementById('downloadBtn');
+
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function isValidUrl(str){
+  try{ new URL(str.startsWith('http')?str:'https://'+str); return true; }catch{ return false; }
+}
+
+function addUrls(lines){
+  let added=0, dup=0, bad=0;
+  for (const raw of lines){
+    const t = raw.trim();
+    if (!t) continue;
+    if (state.urls.has(t)){ dup++; continue; }
+    const valid = isValidUrl(t);
+    state.items.push({url:t, valid});
+    if (valid){ state.urls.add(t); added++; } else { bad++; }
+  }
+  renderList();
+  msg.innerHTML = `Đã thêm <b>${added}</b> URL hợp lệ, bỏ qua <b>${dup}</b> trùng, <b>${bad}</b> không hợp lệ.`;
+}
+
+function renderList(){
+  listEl.innerHTML = '';
+  if (state.items.length===0){ listEl.innerHTML = '<div class="muted">Danh sách trống.</div>'; return; }
+  state.items.forEach((it, idx)=>{
+    const row = document.createElement('div');
+    row.className = 'item';
+    row.innerHTML = `<div style="max-width:80%">${idx+1}. <span>${escapeHtml(it.url)}</span><div class="${it.valid?'ok':'bad'}">${it.valid?'Hợp lệ':'Sai định dạng URL'}</div></div>`;
+    const rm = document.createElement('button');
+    rm.className = 'btn secondary';
+    rm.textContent = 'Xóa';
+    rm.onclick = ()=>{
+      state.items.splice(idx,1);
+      if (state.urls.has(it.url)) state.urls.delete(it.url);
+      renderList();
+    };
+    row.appendChild(rm);
+    listEl.appendChild(row);
+  });
+}
+
+parseBtn.onclick = ()=>{
+  const lines = ta.value.split(/\r?\n/);
+  addUrls(lines);
+  ta.value='';
+};
+clearBtn.onclick = ()=>{
+  state.items = [];
+  state.urls.clear();
+  renderList();
+  msg.textContent='';
+};
+
+loadBtn.onclick = async ()=>{
+  msg.textContent = 'Đang đọc sitemap.xml hiện có...';
+  try{
+    const res = await fetch('/sitemap.xml', {cache:'no-store'});
+    if (!res.ok) throw new Error('Không đọc được sitemap.xml (status '+res.status+')');
+    const txt = await res.text();
+    const dom = new DOMParser().parseFromString(txt, 'application/xml');
+    const locs = [...dom.getElementsByTagName('loc')].map(n=>n.textContent.trim()).filter(Boolean);
+    addUrls(locs);
+    msg.innerHTML += ` Đã nạp từ sitemap: <b>${locs.length}</b> URL.`;
+  }catch(e){
+    msg.innerHTML = `<span class="bad">${escapeHtml(e.message)}. Nếu chạy file:// hoặc khác origin thì không đọc được — vẫn có thể dán URL thủ công.</span>`;
+  }
+};
+
+downloadBtn.onclick = ()=>{
+  if (state.urls.size===0){ msg.innerHTML = '<span class="bad">Chưa có URL hợp lệ để tạo sitemap.</span>'; return; }
+  const today = new Date().toISOString().split('T')[0];
+  let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+  xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+  for (const u of state.urls){
+    xml += `  <url>\n    <loc>${u}</loc>\n    <lastmod>${today}</lastmod>\n  </url>\n`;
+  }
+  xml += `</urlset>\n`;
+
+  const blob = new Blob([xml], {type:'application/xml'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'sitemap.xml';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(a.href);
+  msg.innerHTML = '<span class="ok">Đã tạo & tải xuống <b>sitemap.xml</b>. Hãy ghi đè file trên server/repo của bạn.</span>';
+};
+
+renderList();
+</script>
+</body>
+</html>
