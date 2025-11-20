@@ -435,6 +435,14 @@
             .hero-modern { padding-top: 90px; }
             .hero-text h1 { font-size: 2.2em; }
         }
+        /* Fix lệch menu footer trên màn hình dọc (mobile) */
+@media (max-width: 600px) {
+  .footer-links a,
+  .footer-policy a,
+  .footer-contact a {
+    justify-content: center;  /* canh giữa icon + text */
+  }
+}
     </style>
 </head>
 <body>
