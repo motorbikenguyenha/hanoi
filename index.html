@@ -1,37 +1,3 @@
-
-
-Hãy đóng vai front-end dev và refactor lại sidebar menu + overlay trong file index.html của tôi bên dưới.
-
-Mục tiêu:
-	1.	Giữ nguyên layout, animation, JS logic hiện tại (mở/đóng menu vẫn như cũ).
-	2.	Chỉ chỉnh màu sắc + contrast cho dễ đọc, thân thiện hơn, đặc biệt trên mobile dọc.
-
-Yêu cầu cụ thể:
-	•	Sidebar .sidebar:
-	•	Light mode:
-	•	Nền chính sidebar sáng, dễ nhìn, ví dụ background: rgba(255,255,255,0.96)
-	•	Border nhẹ (border-right) nhưng không làm tối menu.
-	•	Dark mode (:root[data-theme="dark"] .sidebar):
-	•	Nền đậm hơn, ví dụ #121212 hoặc rgba(10,10,10,0.96)
-	•	Border màu sáng nhẹ để menu nổi lên.
-	•	Các item .nav-item trong sidebar:
-	•	Light mode:
-	•	Nền hơi sáng (card) kiểu rgba(0,0,0,0.03) hoặc rgba(255,255,255,0.9)
-	•	Chữ dùng màu var(--text) (tối, dễ đọc).
-	•	Dark mode:
-	•	Nền card tối hơn nền chung một chút, ví dụ rgba(255,255,255,0.06)
-	•	Chữ trắng hoặc #f5f5f5 để tương phản tốt.
-	•	Trạng thái :hover và .active vẫn có hiệu ứng đẹp (shadow, accent), nhưng phải đảm bảo chữ luôn rõ (không có trường hợp chữ đen trên nền tối như hiện tại).
-	•	Đảm bảo màu icon emoji và text căn thẳng hàng, khoảng padding của .nav-item vẫn giống hoặc đẹp hơn.
-	•	Không được đổi cấu trúc HTML (giữ nguyên các class: .sidebar, .nav-item, .overlay, .menu-toggle, v.v.).
-	•	Không được phá header, hero, bike list, pricing, footer. Chỉ sửa phần CSS liên quan tới sidebar/menu và overlay.
-
-Sau khi chỉnh, hãy:
-	•	Dán lại đầy đủ thẻ <style> đã sửa (hoặc phần CSS liên quan) và ví dụ vài dòng HTML .sidebar nếu có thay đổi nhỏ.
-	•	Giải thích ngắn: đã đổi màu gì cho light mode, dark mode để tôi hiểu và có thể tự chỉnh thêm sau.
-
-Đây là mã hiện tại của tôi:
-
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
