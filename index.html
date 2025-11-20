@@ -664,7 +664,7 @@
     .footer-social {
       margin: 20px 0;
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       gap: 16px;
     }
     .social-icon {
@@ -697,8 +697,16 @@
 
 
     /* ================= FAB BUTTONS PREMIUM GLOW (V3) ================= */
+    /* === 🔴 CẬP NHẬT: Chuyển Mini App sang trái (LEFT) === */
     .mini-app-footer{
-      position:fixed;bottom:20px;right:20px;display:flex;flex-direction:column;align-items:flex-end;z-index:2800;
+      position:fixed;
+      bottom:20px;
+      left:20px; /* Chuyển sang trái */
+      right: auto; /* Bỏ right */
+      display:flex;
+      flex-direction:column;
+      align-items:flex-start; /* Canh trái */
+      z-index:2800;
     }
     /* === 🌟 PREMIUM MINI APP GLOW (Thu Hà Edition V2) === */
     .mini-app-toggle {
@@ -838,6 +846,7 @@
       display:flex;flex-direction:column;gap:12px;margin-top:10px;
       opacity:0;pointer-events:none;transform:translateY(10px);
       transition: none;
+      align-items: flex-start; /* Canh trái các nút con */
     }
     .mini-app-footer.open .mini-app-buttons{
       opacity:1;
@@ -966,7 +975,8 @@
       .footer-links, .footer-policy, .footer-contact { align-items: center; }
       .footer-links a, .footer-policy a, .footer-contact a { justify-content: center; }
 
-      .mini-app-footer{right:12px;bottom:12px}
+      /* Mobile Left Positioning */
+      .mini-app-footer{left:12px; bottom:12px; right:auto;}
       .mini-app-buttons{gap:8px}
       .mini-app-toggle{width:48px;height:48px;}
       .mini-app-toggle i {font-size: 22px;}
@@ -1194,7 +1204,7 @@
       <span class="info-divider" aria-hidden="true"></span>
       
       <!-- Updated Map Link -->
-      <a href="https://share.google/P8AgL40hlSIbxanIB" target="_blank" rel="noopener noreferrer" title="Main delivery location in Hanoi">
+      <a href="https://maps.app.goo.gl/ZyGZA84iYYisGFgt6?g_st=ipc" target="_blank" rel="noopener noreferrer" title="Main delivery location in Hanoi">
         <span aria-hidden="true">📍</span>
         <span class="visually-hidden-on-mobile">Long Bien, Hanoi</span>
       </a>
@@ -1843,8 +1853,8 @@ dieuKien.addEventListener('mousemove', (e)=>{
       <div class="portal-inner">
         <h2 class="fw-bold mb-4 portal-title">Explore More ✨</h2>
         <div class="portal-grid">
-          <a href="https://motorbikenguyenha.github.io/hanoi/">🏠 Home</a>
-          <a href="https://motorbikenguyenha.github.io/hanoi/about.html">ℹ️ About</a>
+          <a href="index.html">🏠 Home</a>
+          <a href="about.html">ℹ️ About</a>
           <a href="services.html">🛵 Services</a>
           <a href="faq.html">❓ FAQ</a>
           <a href="contact.html">📞 Contact</a>
@@ -1858,43 +1868,45 @@ dieuKien.addEventListener('mousemove', (e)=>{
 
   <footer class="mini-footer fade-right footer-sunlight" id="lienhe" role="contentinfo">
     <div class="footer-container footer-content">
+      <!-- Brand Section -->
       <div class="footer-brand">
-        <h3>🏍️ Motorbike Rental Location in Hanoi - Thu Ha</h3>
-        <p>Specialized in <strong>50cc motorbike rental in Hanoi</strong> – Reliable and affordable. Door-to-door delivery in <strong>Long Bien, Gia Lam, Hoan Kiem and the Old Quarter</strong>. New, fuel-saving bikes, 24/7 service.</p>
-
-        <!-- Updated Social Links -->
+        <h3>🏍️ Thu Ha Motorbike Rental Hanoi</h3>
+        <p>Specialized in <strong>50cc motorbike rental</strong>, cheap scooter rental in Hanoi. Fast delivery in <strong>Long Bien, Gia Lam, Hoan Kiem</strong>. Reliable, new bikes &amp; 24/7 support.</p>
+        
+        <!-- Social Icons in Footer -->
         <div class="social-links footer-social" aria-label="Social networks">
           <a href="https://www.facebook.com/ScooterRentalHanoi/" class="social-icon" target="_blank" rel="noopener" title="Facebook">📘</a>
           <a href="https://www.instagram.com/rentbikehanoi/" class="social-icon" target="_blank" rel="noopener" title="Instagram">📸</a>
           <a href="https://www.pinterest.com/rentbikehanoi1/" class="social-icon" target="_blank" rel="noopener" title="Pinterest">📌</a>
-          <a href="https://www.tripadvisor.com.vn/Attraction_Review-g21333608-d33882055-Reviews-Nguyen_Ha_Motorbike_Rental-Long_Bien_Hanoi.html" class="social-icon" target="_blank" rel="noopener" title="TripAdvisor">🧭</a>
-          <a href="https://share.google/P8AgL40hlSIbxanIB" class="social-icon" target="_blank" rel="noopener" title="Google Maps">📍</a>
+          <a href="https://maps.app.goo.gl/ZyGZA84iYYisGFgt6?g_st=ipc" class="social-icon" target="_blank" rel="noopener" title="Google Maps">📍</a>
         </div>
       </div>
 
+      <!-- Menu Section -->
       <div class="footer-links">
-        <h4>Services</h4>
-        <a href="https://motorbikenguyenha.github.io/hanoi/">🏠 Motorbike rental in Hanoi</a>
-        <a href="services.html">🛵 Door-to-door rental</a>
-        <a href="services.html">⚙️ 50cc – Vision – Air Blade</a>
-        <a href="social.html">🌐 Social networks</a>
+        <h4>Menu</h4>
+        <a href="index.html"><span class="ico">🏠</span> Home</a>
+        <a href="about.html"><span class="ico">ℹ️</span> About</a>
+        <a href="services.html"><span class="ico">🛵</span> Services</a>
+        <a href="faq.html"><span class="ico">❓</span> FAQ</a>
+        <a href="contact.html"><span class="ico">📞</span> Contact</a>
       </div>
 
+      <!-- Policy Section -->
+      <div class="footer-policy">
+        <h4>Policy & Social</h4>
+        <a href="terms.html"><span class="ico">📜</span> Terms of use</a>
+        <a href="privacy.html"><span class="ico">🔒</span> Privacy policy</a>
+        <a href="social.html"><span class="ico">🌐</span> Social</a>
+      </div>
+
+      <!-- Contact Info -->
       <div class="footer-contact">
-        <h4>Contact</h4>
+        <h4>Contact Us</h4>
         <a href="tel:+84334699969">📞 0334 699 969</a>
         <a href="mailto:motorbikenguyenha@gmail.com">✉️ motorbikenguyenha@gmail.com</a>
-        <a href="https://rentbikehanoi.com/" target="_blank" rel="noopener">🌐 https://rentbikehanoi.com/</a>
-        <!-- Updated Address Link -->
-        <a href="https://share.google/P8AgL40hlSIbxanIB" target="_blank" rel="noopener">📍 Alley 5 Nguyen Van Cu Street, Long Bien, Hanoi, Vietnam</a>
-        <p style="margin-top:8px; font-weight: 500;">⏰ 8:00 AM - 5:00 PM daily</p>
-      </div>
-
-      <div class="footer-policy">
-        <h4>Policies</h4>
-        <a href="terms.html">📜 Terms of use</a>
-        <a href="privacy.html">🔒 Privacy policy</a>
-        <a href="contact.html">📧 Customer support</a>
+        <a href="https://maps.app.goo.gl/ZyGZA84iYYisGFgt6?g_st=ipc" target="_blank" rel="noopener">📍 Alley 5 Nguyen Van Cu, Long Bien, Hanoi</a>
+        <p style="margin-top:8px; font-weight: 500;">⏰ 8:00 AM - 9:00 PM daily</p>
       </div>
     </div>
 
@@ -1903,13 +1915,14 @@ dieuKien.addEventListener('mousemove', (e)=>{
     </div>
   </footer>
 
+  <!-- Mini App Left Side -->
   <div id="miniAppFooter" class="mini-app-footer" aria-label="Mini app quick actions">
     <button id="miniAppToggle" class="mini-app-toggle" aria-label="Open quick menu">
       <i aria-hidden="true">⚡</i>
     </button>
     
     <div class="mini-app-buttons" aria-hidden="true">
-      <span id="miniAppTyping" style="font-size:0.95em;font-weight:600;color:var(--text);display:block;text-align:center;margin-bottom:6px;"></span>
+      <span id="miniAppTyping" style="font-size:0.95em;font-weight:600;color:var(--text);display:block;text-align:left;margin-bottom:6px;"></span>
       
       <a class="fab call" href="tel:+84334699969" aria-label="Call">
         <span aria-hidden="true">📞</span><span class="visually-hidden-on-mobile"> Call</span>
@@ -1918,7 +1931,7 @@ dieuKien.addEventListener('mousemove', (e)=>{
         <span aria-hidden="true">💬</span><span class="visually-hidden-on-mobile"> Zalo</span>
       </a>
       <!-- Updated Map Link in FAB -->
-      <a class="fab map" href="https://share.google/P8AgL40hlSIbxanIB" target="_blank" rel="noopener" aria-label="Map">
+      <a class="fab map" href="https://maps.app.goo.gl/ZyGZA84iYYisGFgt6?g_st=ipc" target="_blank" rel="noopener" aria-label="Map">
         <span aria-hidden="true">🗺</span><span class="visually-hidden-on-mobile"> Map</span>
       </a>
       <button class="fab backtop" id="miniBackToTop" aria-label="Back to top">
