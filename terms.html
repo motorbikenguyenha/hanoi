@@ -164,8 +164,14 @@
     .hero-container { position: relative; z-index: 2; width: 100%; max-width: 1200px; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 50px; align-items: center; }
     .hero-text { color: #fff; text-align: left; }
     .hero-chip { display: inline-block; background: var(--accent); color: #000; font-weight: 700; font-size: 0.85em; padding: 6px 14px; border-radius: 20px; margin-bottom: 20px; text-transform: uppercase; }
-    .hero-text h1 { font-size: 3.5em; line-height: 1.1; font-weight: 900; margin: 0 0 20px; text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); }
-    .hero-text h1 span { color: var(--accent); }
+    
+    /* CHANGED: Updated CSS selector to include .hero-title */
+    .hero-text h1, 
+    .hero-text .hero-title { font-size: 3.5em; line-height: 1.1; font-weight: 900; margin: 0 0 20px; text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); }
+    
+    .hero-text h1 span,
+    .hero-text .hero-title span { color: var(--accent); }
+
     .hero-text p { font-size: 1.25em; margin-bottom: 30px; opacity: 0.9; max-width: 90%; line-height: 1.5; }
     .hero-badges { display: flex; gap: 25px; margin-top: 10px; }
     .badge-item { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 0.95em; }
@@ -356,7 +362,11 @@
         .top-info a span[aria-hidden="true"] { font-size: 1.2em; }
         .top-info .info-divider { display: none; }
         .hero-container { grid-template-columns: 1fr; text-align: center; }
-        .hero-text h1 { font-size: 2.8em; }
+        
+        /* CHANGED: Updated media query selector for hero title */
+        .hero-text h1, 
+        .hero-text .hero-title { font-size: 2.8em; }
+        
         .hero-text p { margin: 0 auto 30px; }
         .hero-badges { justify-content: center; margin-bottom: 30px; }
         .hero-form-card { max-width: 500px; margin: 0 auto; }
@@ -389,7 +399,9 @@
     }
     @media(max-width:480px) {
         .hero-modern { padding-top: 90px; }
-        .hero-text h1 { font-size: 2.2em; }
+        /* CHANGED: Updated media query selector for hero title */
+        .hero-text h1, 
+        .hero-text .hero-title { font-size: 2.2em; }
     }
 </style>
 </head>
@@ -453,7 +465,8 @@
             <!-- LEFT: TEXT -->
             <div class="hero-text">
                 <span class="hero-chip">🔥 #1 Motorbike Rental & Sale | Nguyen Ha</span>
-                <h1>Hanoi Motorbike Rental Cost <br><span>& Bike Sale</span></h1>
+                <!-- CHANGED: Swapped h1 for div with class "hero-title" -->
+                <div class="hero-title">Hanoi Motorbike Rental Cost <br><span>& Bike Sale</span></div>
                 <p>Best rate at <strong>Nguyen Ha</strong>. Premium 50cc scooters & manual bikes. <strong>No license required</strong> for 50cc. Fast delivery to Old Quarter, Long Bien & Gia Lam.</p>
                 
                 <div class="hero-badges">
