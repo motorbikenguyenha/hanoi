@@ -1,6 +1,7 @@
 /* motoai_v40_right_fixed.js
    - Bubble + chat card on RIGHT side (desktop & mobile)
    - Raised higher to avoid iOS bottom nav bar
+   - Keyboard-aware on mobile (card không bị bàn phím che)
    - Default phone: +84 33 4699969
 */
 
@@ -466,6 +467,7 @@
     flex:1;overflow-y:auto;
     background:linear-gradient(180deg,#E9EEF5 0%, #D7E0EC 40%, #E4EAF3 100%);
     padding:12px 10px 12px;scroll-behavior:smooth;
+    -webkit-overflow-scrolling: touch; /* scroll mượt trên iOS */
   }
   #mta-body::-webkit-scrollbar{width:6px}
   #mta-body::-webkit-scrollbar-thumb{
@@ -582,11 +584,22 @@
     background:#F2F4F7;
   }
 
+  /* Khi bàn phím mở: dùng class mta-kb để dính sát đáy viewport,
+     bỏ bớt offset 80px cho đỡ phí chiều cao */
+  #mta-root.mta-kb{
+    bottom:env(safe-area-inset-bottom,0);
+  }
+  #mta-root.mta-kb #mta-card{
+    bottom:env(safe-area-inset-bottom,0);
+    max-height:calc(100dvh - 8px - env(safe-area-inset-bottom,0));
+  }
+
   @media(max-width:520px){
     #mta-card{
       right:8px;
       left:8px;
       width:auto;
+      max-height:calc(100dvh - 16px - env(safe-area-inset-bottom,0));
     }
   }
 
@@ -1035,7 +1048,7 @@
   function setTagsFor(meta){
     const lang = (meta && meta.lang) || "en";
     const viewMode = meta.mode || "answer";
-    const intents = meta.intents || {};
+       const intents = meta.intents || {};
 
     if (viewMode === "welcome"){
       const html = lang === "vi"
@@ -1173,12 +1186,14 @@
   }
 
   function initEvents(){
-    const bubble = $("#mta-bubble");
-    const card   = $("#mta-card");
-    const close  = $("#mta-close");
+    const bubble   = $("#mta-bubble");
+    const card     = $("#mta-card");
+    const close    = $("#mta-close");
     const backdrop = $("#mta-backdrop");
-    const input  = $("#mta-in");
-    const send   = $("#mta-send");
+    const input    = $("#mta-in");
+    const send     = $("#mta-send");
+    const root     = document.getElementById("mta-root");
+    const bodyEl   = $("#mta-body");
 
     if (!bubble || !card || !close || !backdrop || !input || !send) return;
 
@@ -1210,11 +1225,13 @@
       card.setAttribute("aria-hidden","false");
       backdrop.classList.add("show");
       setTimeout(()=>{ try{ input.focus(); }catch{} }, 80);
+      if (bodyEl) bodyEl.scrollTop = bodyEl.scrollHeight;
     }
     function closeCard(){
       card.classList.remove("open");
       card.setAttribute("aria-hidden","true");
       backdrop.classList.remove("show");
+      if (root) root.classList.remove("mta-kb");
     }
 
     API.openCard = openCard;
@@ -1264,6 +1281,45 @@
       });
     }
 
+    // ====== MOBILE KEYBOARD HANDLING (không để bàn phím che chat) ======
+    function setKeyboardMode(on){
+      if (!root) return;
+      if (on) root.classList.add("mta-kb");
+      else root.classList.remove("mta-kb");
+    }
+
+    input.addEventListener("focus", ()=>{
+      setKeyboardMode(true);
+      if (bodyEl){
+        setTimeout(()=>{ bodyEl.scrollTop = bodyEl.scrollHeight; }, 250);
+      }
+    });
+    input.addEventListener("blur", ()=>{
+      // delay nhỏ tránh nháy khi chuyển giữa input / selection
+      setTimeout(()=> setKeyboardMode(false), 200);
+    });
+
+    // visualViewport: nhận diện bàn phím trên mobile tốt hơn
+    if (window.visualViewport){
+      const handler = ()=>{
+        try{
+          const vv = window.visualViewport;
+          const ratio = vv.height / window.innerHeight;
+          if (ratio < 0.8){
+            setKeyboardMode(true);
+            if (bodyEl){
+              setTimeout(()=>{ bodyEl.scrollTop = bodyEl.scrollHeight; }, 150);
+            }
+          } else {
+            setKeyboardMode(false);
+          }
+        }catch(e){}
+      };
+      try{
+        window.visualViewport.addEventListener("resize", handler);
+      }catch(e){}
+    }
+
     applyInputTheme();
 
     if (window.matchMedia){
@@ -1294,7 +1350,7 @@
     renderSess(lang);
     initEvents();
     if (CFG.debug){
-      console.log("%cMotoAI v40 (Right + phone updated)","color:"+CFG.themeColor+";font-weight:bold");
+      console.log("%cMotoAI v40 (Right + phone + keyboard-aware)","color:"+CFG.themeColor+";font-weight:bold");
     }
   }
 
