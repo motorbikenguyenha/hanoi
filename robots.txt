@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://motorbikenguyenha.github.io/hanoi/sitemap.xml
+Sitemap: https://motorbikenguyenha.github.io/hanoi/social-sitemap.xml
