@@ -435,14 +435,90 @@
             .hero-modern { padding-top: 90px; }
             .hero-text h1 { font-size: 2.2em; }
         }
-        /* Fix lệch menu footer trên màn hình dọc (mobile) */
-@media (max-width: 600px) {
-  .footer-links a,
-  .footer-policy a,
-  .footer-contact a {
-    justify-content: center;  /* canh giữa icon + text */
-  }
-}
+        @media (max-width: 600px) {
+            .footer-links a,
+            .footer-policy a,
+            .footer-contact a { justify-content: center; }
+        }
+
+        /* ================== NEW ADDED CSS (SECTION 1 & 2) ================== */
+        
+        /* SECTION 1: WHY CHOOSE US */
+        .why-section {
+            max-width: 1100px; margin: 70px auto 40px; padding: 50px 20px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(244, 197, 66, 0.1) 100%);
+            backdrop-filter: blur(12px);
+            border-radius: 24px; border: 1px solid rgba(244, 197, 66, 0.2);
+            text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+            position: relative; overflow: hidden;
+        }
+        :root[data-theme="dark"] .why-section {
+            background: linear-gradient(135deg, rgba(30, 30, 30, 0.8) 0%, rgba(20, 20, 20, 0.95) 100%);
+            border-color: rgba(244, 197, 66, 0.1);
+        }
+        .why-section h2 {
+            font-size: 2rem; font-weight: 900; margin-bottom: 40px;
+            background: linear-gradient(90deg, #111, #555);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        :root[data-theme="dark"] .why-section h2 {
+            background: linear-gradient(90deg, #f4c542, #fff);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .why-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px;
+        }
+        .why-card {
+            background: rgba(255, 255, 255, 0.6); border: 1px solid rgba(255,255,255,0.8);
+            border-radius: 16px; padding: 24px; transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        :root[data-theme="dark"] .why-card {
+            background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.08);
+        }
+        .why-card:hover { transform: translateY(-8px); box-shadow: 0 12px 24px rgba(244, 197, 66, 0.15); }
+        .why-icon {
+            width: 60px; height: 60px; background: linear-gradient(135deg, var(--accent), #fff9dc);
+            border-radius: 50%; display: grid; place-items: center; font-size: 1.8rem; margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(244, 197, 66, 0.3);
+        }
+        .why-card h3 { font-size: 1.1rem; font-weight: 700; margin: 0 0 8px 0; color: var(--text); }
+        .why-card p { font-size: 0.95rem; color: var(--muted); margin: 0; line-height: 1.5; }
+
+        /* SECTION 2: HOW TO RENT */
+        .steps-section {
+            max-width: 1100px; margin: 40px auto 70px; padding: 0 20px;
+            text-align: center;
+        }
+        .steps-section h2 { font-size: 2rem; font-weight: 900; margin-bottom: 50px; color: var(--text); }
+        .steps-container {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px;
+            counter-reset: step-counter;
+        }
+        .step-item {
+            position: relative; background: var(--bg); padding: 36px 20px 24px;
+            border-radius: 16px; border: 1px dashed rgba(244, 197, 66, 0.6);
+            transition: all 0.3s ease;
+        }
+        .step-item:hover { border-style: solid; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        .step-badge {
+            position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
+            width: 40px; height: 40px; background: var(--accent); color: #000;
+            font-weight: 800; font-size: 1.2rem; border-radius: 50%;
+            display: grid; place-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 2;
+        }
+        .step-icon { font-size: 2.5rem; margin-bottom: 12px; display: block; }
+        .step-item h3 { font-size: 1.1rem; font-weight: 700; margin: 0 0 8px; color: var(--text); }
+        .step-item p { font-size: 0.95rem; color: var(--muted); margin: 0 0 8px; line-height: 1.4; }
+        .step-extra { font-size: 0.85rem; color: var(--accent); font-weight: 600; display: block; margin-top: auto; }
+        
+        /* Responsive tweaks for new sections */
+        @media(max-width: 600px) {
+            .why-section { padding: 30px 16px; }
+            .why-grid, .steps-container { grid-template-columns: 1fr; gap: 30px; }
+            .step-item { margin-top: 15px; }
+        }
     </style>
 </head>
 <body>
@@ -678,6 +754,68 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+        </section>
+
+        <!-- ================== NEW SECTION 1: WHY CHOOSE US ================== -->
+        <section id="why-nguyenha" class="why-section fade-right">
+            <h2>Why Choose Nguyen Ha Motorbike Rental?</h2>
+            <div class="why-grid">
+                <div class="why-card">
+                    <div class="why-icon">🛡️</div>
+                    <h3>New & Safe Bikes</h3>
+                    <p>Premium 50cc & scooters. Regularly maintained for safe trips in Hanoi.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">⚡</div>
+                    <h3>Fast Delivery</h3>
+                    <p>15-min delivery to Long Bien, Gia Lam, Old Quarter & Hoan Kiem.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">💰</div>
+                    <h3>Good Price</h3>
+                    <p>Affordable rates from 150K/day. Great discounts for monthly rentals.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">🛠️</div>
+                    <h3>24/7 Support</h3>
+                    <p>English speaking support. Free roadside assistance & advice.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================== NEW SECTION 2: 4 STEPS TO RENT ================== -->
+        <section id="rental-steps" class="steps-section fade-left">
+            <h2>How to Rent – 4 Easy Steps</h2>
+            <div class="steps-container">
+                <div class="step-item">
+                    <div class="step-badge">1</div>
+                    <span class="step-icon">📱</span>
+                    <h3>Contact Us</h3>
+                    <p>Message via Zalo/WhatsApp to check availability & book your bike.</p>
+                    <span class="step-extra">Hotline: 0334 699 969</span>
+                </div>
+                <div class="step-item">
+                    <div class="step-badge">2</div>
+                    <span class="step-icon">🛵</span>
+                    <h3>Confirm Price</h3>
+                    <p>Choose your bike (50cc or 110cc) and agree on rental duration.</p>
+                    <span class="step-extra">From 150K - 200K/day</span>
+                </div>
+                <div class="step-item">
+                    <div class="step-badge">3</div>
+                    <span class="step-icon">📝</span>
+                    <h3>Delivery</h3>
+                    <p>We deliver the bike to your place. Simple paperwork (ID/Passport).</p>
+                    <span class="step-extra">Free 2 helmets + raincoat</span>
+                </div>
+                <div class="step-item">
+                    <div class="step-badge">4</div>
+                    <span class="step-icon">😊</span>
+                    <h3>Enjoy & Return</h3>
+                    <p>Enjoy your ride in Hanoi! Return the bike and get your deposit back.</p>
+                    <span class="step-extra">Safe & Convenient</span>
+                </div>
             </div>
         </section>
 
